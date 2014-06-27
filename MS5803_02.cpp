@@ -65,6 +65,7 @@ static byte HighByte;
 static byte MidByte;
 static byte LowByte;
 
+
 //-------------------------------------------------
 // Constructor
 MS_5803::MS_5803(uint16_t Resolution) {
@@ -175,7 +176,7 @@ void MS_5803::readSensor() {
     // (i.e. 2^31 is hard coded as 2147483648).
     if (TEMP < 2000) {
 		// For 2 bar model
-		T2 = ((uint64_t)dT * dT) / 2147483648 ; // 2^31 = 2147483648
+		T2 = ((int64_t)dT * dT) / 2147483648LL ; // 2^31 = 2147483648
 		T2 = (int32_t)T2; // recast as signed 32bit integer
 		OFF2 = (61 * ((TEMP-2000) * (TEMP-2000))) / 16 ;
 		Sens2 = 2 * ((TEMP-2000) * (TEMP-2000)) ;
@@ -185,7 +186,7 @@ void MS_5803::readSensor() {
 		OFF2 = 0;
 		Sens2 = 0;
     }
-    
+
     // Additional compensation for very low temperatures (< -15C)
     if (TEMP < -1500) {
     	// For 2 bar model
